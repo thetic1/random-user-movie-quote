@@ -26,7 +26,7 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-userSchema.methods.incrementSubmissions = function(password) {
+userSchema.methods.incrementSubmissions = function() {
         this.local.submissions++;
 };
 

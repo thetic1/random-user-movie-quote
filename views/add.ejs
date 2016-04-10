@@ -23,6 +23,12 @@
     <% if (message.length > 0) { %>
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
+    
+    <% if (added) { %>
+    
+        <p class="bg-success">Quote Added</p>
+    
+    <% } %>
 
     <!-- ADD FORM -->
     <form id="addQuoteForm" class="form-horizontal" action="/add" method="post">

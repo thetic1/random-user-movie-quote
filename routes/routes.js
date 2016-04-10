@@ -21,17 +21,15 @@ function isLoggedIn(req, res, next)
 //------Routes------//
 module.exports = function(app, passport) 
 {
-
-    console.log('App is: ' + app);
     
     //routes
     require('./index.js')(app);
-    /*require('./login.js')(app, passport);
-    require('./logout.js')(app, passport);
+    require('./login.js')(app, passport);
+    require('./logout.js')(app);
     require('./signup.js')(app, passport);
-    require('./profile.js')(app, passport);
-    require('./picker.js')(app, passport);
-    require('./import.js')(app, passport);
-    require('./add.js')(app, passport);*/
+    require('./profile.js')(app, isLoggedIn);
+    require('./picker.js')(app, isLoggedIn);
+    require('./import.js')(app, isLoggedIn);
+    require('./add.js')(app, isLoggedIn);
    
 };

@@ -1,50 +1,48 @@
-// =====================================
-// PROFILE SECTION =====================
-// =====================================
-// we will want this protected so you have to be logged in to visit
-// we will use route middleware to verify this (the isLoggedIn function)
-app.get('/profile', isLoggedIn, function(req, res) 
+module.exports = function(app, isLoggedIn)
 {
-
-    res.render('profile.ejs', 
+    app.get('/profile', isLoggedIn, function(req, res) 
     {
 
-            user : req.user,
+        res.render('profile.ejs', 
+        {
+
+                user : req.user,
+
+        });
 
     });
 
-});
-
-app.post('/profile', isLoggedIn, function(req, res) 
-{
-
-    console.log(req.body);
-    console.log(req.user);
-    console.log(req.files);
-
-    if(req.body.name != "")
+    app.post('/profile', isLoggedIn, function(req, res) 
     {
 
-        req.user.local.name = req.body.name;
+        console.log(req.body);
+        console.log(req.user);
+        console.log(req.files);
 
-    }
+        if(req.body.name != "")
+        {
 
-    if(req.body.picture != "")
-    {
+            req.user.local.name = req.body.name;
 
-        req.user.local.picture = req.body.picture;
+        }
 
-    }
+        if(req.body.picture != "")
+        {
 
-    req.user.incrementSubmissions();
+            req.user.local.picture = req.body.picture;
 
-    req.user.save();
+        }
 
-    res.render('profile.ejs', 
-    {
+        req.user.incrementSubmissions();
 
-            user : req.user,
+        req.user.save();
+
+        res.render('profile.ejs', 
+        {
+
+                user : req.user,
+
+        });
 
     });
-
-});
+}

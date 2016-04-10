@@ -1,101 +1,99 @@
-// =====================================
-// PICKER ==============================
-// =====================================
-// Loads the quotepicker.ejs file
-// Pulls all quotes from the quote database
-// When possible it chooses random quotes that have average or below number of hits
-// 
-app.get('/picker', isLoggedIn, function(req, res) 
+
+module.exports = function(app, isLoggedIn)
 {
-
-    var quoteSchema = require('./models/quotes');
-
-    quoteSchema.find({}, function (err, quote) 
+    app.get('/picker', isLoggedIn, function(req, res) 
     {
 
-        if (err) return console.error(err);
+        var quoteSchema = require('../models/quotes');
 
-        var userSchema = require('./models/user');
-
-        userSchema.find({}, function (err, users) 
-        { 
+        quoteSchema.find({}, function (err, quote) 
+        {
 
             if (err) return console.error(err);
 
-            var userArray = [];
+            var userSchema = require('../models/user');
 
-            for(var i = 0; i < users.length; i++)
-            {
+            userSchema.find({}, function (err, users) 
+            { 
 
-                userArray.push({name: users[i].local.name, submissions: users[i].local.submissions, picture: users[i].local.picture});
+                if (err) return console.error(err);
 
-            }
+                var userArray = [];
 
-            console.log(userArray);
-
-            var average = 0;
-
-            //find the average number of quotes
-            for(var i = 0; i < quote.length; i++)
-            {
-
-               average += quote[i].hits;
-
-            }
-
-            var average = average / quote.length;
-
-            var quoteArray = [];
-
-            var numberArray = [];
-
-            for(var i = 0; i < quote.length; i++)
-            {
-
-                numberArray.push(i);
-
-            }
-
-            //allows grabbing slightly above average quotes if there aren't enough average quotes
-            var averageModifier = 1;
-
-            for(var i = 0; quoteArray.length <= (users.length + (users.length/2)); i++)
-            {
-
-                if(i >= quote.length)
+                for(var i = 0; i < users.length; i++)
                 {
 
-                    i = 0;
-
-                    //allow more quotes in since we haven't got enough in.
-                    averageModifier++;
+                    userArray.push({name: users[i].local.name, submissions: users[i].local.submissions, picture: users[i].local.picture});
 
                 }
 
-                var randomArrayIndex = Math.floor(Math.random() * numberArray.length);
+                console.log(userArray);
 
-                var random = numberArray.splice(randomArrayIndex, 1);
+                var average = 0;
 
-                if(quote[random].hits < (average + averageModifier))
+                //find the average number of quotes
+                for(var i = 0; i < quote.length; i++)
                 {
 
-                    var quoteToAdd = quote[random];
-
-                    quoteArray.push({quote: quoteToAdd.quote, image: quoteToAdd.image, movie: quoteToAdd.movie});
-
-                    //add hit to the quote and save it
-                    quoteToAdd.addHit();
-                    quoteToAdd.save();
+                   average += quote[i].hits;
 
                 }
 
-            }
+                var average = average / quote.length;
 
-            // render the page and pass data
-            res.render('picker.ejs', {quotes: quoteArray, users: userArray, message: req.flash('loginMessage') });
+                var quoteArray = [];
+
+                var numberArray = [];
+
+                for(var i = 0; i < quote.length; i++)
+                {
+
+                    numberArray.push(i);
+
+                }
+
+                //allows grabbing slightly above average quotes if there aren't enough average quotes
+                var averageModifier = 1;
+
+                for(var i = 0; quoteArray.length <= (users.length + (users.length/2)); i++)
+                {
+
+                    if(i >= quote.length)
+                    {
+
+                        i = 0;
+
+                        //allow more quotes in since we haven't got enough in.
+                        averageModifier++;
+
+                    }
+
+                    var randomArrayIndex = Math.floor(Math.random() * numberArray.length);
+
+                    var random = numberArray.splice(randomArrayIndex, 1);
+
+                    if(quote[random].hits < (average + averageModifier))
+                    {
+
+                        var quoteToAdd = quote[random];
+
+                        quoteArray.push({quote: quoteToAdd.quote, image: quoteToAdd.image, movie: quoteToAdd.movie});
+
+                        //add hit to the quote and save it
+                        quoteToAdd.addHit();
+                        quoteToAdd.save();
+
+                    }
+
+                }
+
+                // render the page and pass data
+                res.render('picker.ejs', {quotes: quoteArray, users: userArray, message: req.flash('loginMessage') });
+
+            });
 
         });
 
     });
-
-});
+    
+}
