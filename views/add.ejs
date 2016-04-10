@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <title>Quote Machine - Quote Adder</title>
+    <script src="/javascripts/jquery-2.1.4.min.js"></script>
+    <script defer="defer" src="/javascripts/quoteadder.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<% include nav.ejs %>
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1></span> Enter Quote Data</h1>
+
+    <!-- show any messages that come back -->
+    <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+
+    <!-- ADD FORM -->
+    <form id="addQuoteForm" class="form-horizontal" action="/add" method="post">
+       
+       <div class="row">
+            
+            <div class="col-sm-4">
+                
+                <div class="form-group">
+                    
+                    <label>Quote</label>
+                    
+                    <textarea id="quote" class="form-control" name="quote"></textarea>
+                
+                </div>
+            
+            </div>
+            
+            <div class="col-sm-8">
+            
+                <br />
+
+                <p class="text-danger" id="quoteError"></p>
+            
+            </div>
+        
+        </div>
+            
+        <div class="row">
+
+            <div class="col-sm-4">
+            
+                <div class="form-group">
+                  
+                    <label>Image URL</label>
+                  
+                    <input id="imgURL" type="text" class="form-control inline" name="imgURL">
+                
+                </div>
+            
+            </div>
+
+            <div class="col-sm-8">
+
+                <br />
+
+                <p class="text-danger" id="imgURLError"></p>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-4">
+        
+                <div class="form-group">
+                    
+                    <label>Source</label>
+                    
+                    <input id="source" type="text" class="form-control" name="source">
+
+                </div>
+
+            </div>
+
+            <div class="col-sm-8">
+
+                <br />
+
+                <p class="text-danger" id="sourceError"></p>
+
+            </div>
+
+        </div>
+
+        <div id="output"></div>
+
+        <input id="newQuoteSubmit" type="submit" class="btn btn-warning btn-lg inline" value="Submit">    
+    </form>
+
+</div>
+
+</div>
+</body>
+</html>

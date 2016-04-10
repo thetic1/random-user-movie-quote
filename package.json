@@ -3,21 +3,29 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www && npm run mongo",
+    "mongo": "mongod --dbpath ./db"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.13.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.3.5",
+    "debug": "^2.2.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "gulp": "^3.9.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.4.12",
     "morgan": "~1.6.1",
+    "nodemon": "^1.9.1",
     "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "reload": "^0.7.0",
     "request": "^2.70.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "users": "0.0.2"
   },
   "description": "Allows users to submit movie or pop culture quotes. Has a random user selector to decide the order in which people should present. Mixes in movie quotes for humor",
   "main": "app.js",
@@ -39,11 +47,7 @@
   "homepage": "https://github.com/thetic1/random-user-movie-quote#readme",
   "devDependencies": {
     "bower": "^1.7.9",
-    "debug": "^2.2.0",
-    "gulp": "^3.9.1",
     "jscs": "^2.11.0",
-    "jshint": "^2.9.1",
-    "reload": "^0.7.0",
-    "supervisor": "^0.10.0"
+    "jshint": "^2.9.1"
   }
 }
