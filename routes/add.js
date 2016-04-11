@@ -16,14 +16,33 @@ module.exports = function(app, isLoggedIn)
 
         quote.save(function (err, quote){
 
-            if (err) return console.error(err);
+            if (err)
+            { 
+                
+                console.error(err);
+                
+                res.render('add.ejs', {message: 'Could not save quote to database.', added: false});
+                
+            }
             
-            req.user.incrementSubmissions();
+            var userSchema = require('../models/user');
 
+            var user = userSchema.findById(req.user._id, function(err, user){
+                
+                if (err) return console.error(err);
+                
+                console.log(user);
+                
+                user.incrementSubmissions();
+                
+                user.save();
+                
+            });
+            
+        res.render('add.ejs', {message: req.flash('loginMessage'), added: true});
+            
         });
 
-         res.render('add.ejs', {message: req.flash('loginMessage'), added: true});
-        
     });
     
 }
