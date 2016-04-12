@@ -27,7 +27,7 @@ module.exports = function(app, passport)
     require('./login.js')(app, passport);
     require('./logout.js')(app);
     require('./signup.js')(app, passport);
-    require('./profile.js')(app, isLoggedIn);
+    require('./profile.js')(app, isLoggedIn, router);
     require('./picker.js')(app, isLoggedIn);
     require('./import.js')(app, isLoggedIn);
     require('./add.js')(app, isLoggedIn);

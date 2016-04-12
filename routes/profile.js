@@ -1,3 +1,8 @@
+var multer = require('multer');
+var index = __dirname.lastIndexOf('/');
+var appDir = __dirname.slice(0, index);
+var upload = multer({ dest: appDir + "/public/images/" });
+
 module.exports = function(app, isLoggedIn)
 {
     app.get('/profile', isLoggedIn, function(req, res) 
@@ -12,13 +17,10 @@ module.exports = function(app, isLoggedIn)
 
     });
 
-    app.post('/profile', isLoggedIn, function(req, res) 
+    app.post('/profile', [isLoggedIn, upload.single('picture')], function(req, res) 
     {
-
-        console.log(req.body);
-        console.log(req.user);
-        console.log(req.files);
-
+    
+        //change the name
         if(req.body.name != "")
         {
 
@@ -26,14 +28,17 @@ module.exports = function(app, isLoggedIn)
 
         }
 
-        if(req.body.picture != "")
-        {
-
-            req.user.local.picture = req.body.picture;
+        if(req.file.originalname != "")
+        {   
+            
+            req.user.local.picture = req.file.filename;
+            
+            /*var index = req.file.fieldname.lastIndexOf('.');
+            var fileExt = req.file.picture.slice(index);
+                
+            var newPath = __dirname + "public/images/" + req.user.name + fileExt;*/
 
         }
-
-        req.user.incrementSubmissions();
 
         req.user.save();
 
@@ -45,4 +50,5 @@ module.exports = function(app, isLoggedIn)
         });
 
     });
+    
 }
