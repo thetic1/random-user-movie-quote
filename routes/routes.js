@@ -24,6 +24,7 @@ module.exports = function(app, passport)
     
     //routes
     require('./index.js')(app);
+    require('./polymertemplate.js')(app);
     require('./login.js')(app, passport);
     require('./logout.js')(app);
     require('./signup.js')(app, passport);
