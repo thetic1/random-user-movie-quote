@@ -84,28 +84,40 @@ Polymer(
     properties: 
     {
 
+        //the amount of time in seconds to countdown from
         allottedTime: {type: Number, value: 180},
         
         cssClass: {type: String, value: 'normal'}
 
     },
     
-    timeLeft: null,
+    //the amount of time left
+    timeLeft: null, //set in the ready function
     
-    asyncHandle: null,
+    //the handle returned from the async function, used to pause/resume/reset
+    asyncHandle: null, //set in the timer and pauseToggle function
     
+    //holds timer state, true when timer is running, false when not running 
     isPaused: true,
     
-    fogHorn: null,
+    //sound played when time us up
+    fogHorn: null, //set in the ready function
     
-    pauseButtonText: '',
+    //text contained by the start/pause/resume button
+    pauseButtonText: 'Start',
     
+    //controls the class applied to the countdown text, can be normal, warning or critical.
+    //Just changes the text color
     cssClass: 'normal',
     
+    //ready
+    //Sets some default values for the timer.
+    //no parameters
+    //no returns
     ready: function() 
     {
 
-        //the amount of time left
+        
         this.timeLeft = this.allottedTime;
         
         this.pauseButtonText = 'Start';
@@ -113,8 +125,12 @@ Polymer(
         //the sound that plays when the time is up
         this.fogHorn = new Audio('/foghorn.wav');
     
-    },
+    },//end ready
     
+    //timer
+    //Starts a countdown
+    //no parameters
+    //no returns
     timer: function() 
     {
 
@@ -156,8 +172,12 @@ Polymer(
 
         }
 
-    },
-    
+    },//end timer
+
+    //pauseToggle
+    //pauses or plays the timer, toggles the button text to pause or continue
+    //no parameters
+    //no returns
     pauseToggle: function()
     {
 
@@ -182,8 +202,12 @@ Polymer(
 
         }
 
-    },
-    
+    },//end pauseToggle
+
+    //resetTimer
+    //stops the timer and resets elapsedTime
+    //no parameters
+    //no returns
     resetTimer: function()
     {
 
@@ -195,7 +219,7 @@ Polymer(
         
         this.cssClass = "normal";
 
-    }
+    }//end resetTimer
 
 });
    
