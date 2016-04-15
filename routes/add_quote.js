@@ -1,12 +1,6 @@
 module.exports = function(app, isLoggedIn)
 {
-    app.get('/add', isLoggedIn, function(req, res) 
-    {
 
-        res.render('add.ejs', { message: req.flash('loginMessage'), added: false });
-
-    });
-    
     // process the add form
     app.post('/add', isLoggedIn, function(req, res) {
 
@@ -21,7 +15,7 @@ module.exports = function(app, isLoggedIn)
                 
                 console.error(err);
                 
-                res.render('add.ejs', {message: 'Could not save quote to database.', added: false});
+                res.json({success: false});
                 
             }       
                 
@@ -29,7 +23,7 @@ module.exports = function(app, isLoggedIn)
                 
             req.user.save();
             
-            res.render('add.ejs', {message: req.flash('loginMessage'), added: true});
+            res.json({success: true});
             
         });
 

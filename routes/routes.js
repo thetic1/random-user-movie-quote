@@ -25,15 +25,15 @@ module.exports = function(app, passport)
     //------Routes With EJS Views------//
     require('./login.js')(app, passport);
     require('./signup.js')(app, passport);
-    //require('./main.js')(app, isLoggedIn);
+    require('./main.js')(app, isLoggedIn);
     
     //------API ROUTES------//
-    //require('./add_quote.js')(app);
+    require('./add_quote.js')(app, isLoggedIn);
     //require('./get_quotes.js')(app);
-    //require('./update_profile.js')(app);
-    //require('./logout.js')(app);
+    //require('./update_profile.js')(app, isLoggedIn);
+    require('./logout.js')(app);
 
     //------Testing/Dev Routes------//
-    //require('./polymertemplate.js')(app);
+    require('./polymertemplate.js')(app);
    
 };
