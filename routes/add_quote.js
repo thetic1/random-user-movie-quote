@@ -2,7 +2,7 @@ module.exports = function(app, isLoggedIn)
 {
 
     // process the add form
-    app.post('/add', isLoggedIn, function(req, res) {
+    app.post('/add', function(req, isLoggedIn, res) {
 
         var quoteSchema = require('../models/quotes');
 

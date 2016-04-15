@@ -1,6 +1,6 @@
-module.exports = function(app, passport)
+module.exports = function(app, passport, isLoggedOut)
 {
-    app.get('/signup', function(req, res) 
+    app.get('/signup', isLoggedOut, function(req, res) 
     {
 
         // render the page and pass in any flash data if it exists
