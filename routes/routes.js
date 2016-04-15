@@ -22,15 +22,18 @@ function isLoggedIn(req, res, next)
 module.exports = function(app, passport) 
 {
     
-    //routes
-    require('./index.js')(app);
-    require('./polymertemplate.js')(app);
+    //------Routes With EJS Views------//
     require('./login.js')(app, passport);
-    require('./logout.js')(app);
     require('./signup.js')(app, passport);
-    require('./profile.js')(app, isLoggedIn, router);
-    require('./picker.js')(app, isLoggedIn);
-    require('./import.js')(app, isLoggedIn);
-    require('./add.js')(app, isLoggedIn);
+    //require('./main.js')(app, isLoggedIn);
+    
+    //------API ROUTES------//
+    //require('./add_quote.js')(app);
+    //require('./get_quotes.js')(app);
+    //require('./update_profile.js')(app);
+    //require('./logout.js')(app);
+
+    //------Testing/Dev Routes------//
+    //require('./polymertemplate.js')(app);
    
 };

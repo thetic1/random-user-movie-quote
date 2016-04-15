@@ -1,59 +1,92 @@
 <!doctype html>
-<html>
 <head>
-    <title>Quote Machine - New Account</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <script src="javascripts/jquery-2.1.4.min.js"></script>
-    <script defer="defer" src="javascripts/signupvalidate.js"></script>
-    <style>
-        body        { padding-top:80px; }
-    </style>
+    <title>Polymer Template</title>
+    
+    <meta charset="utf-8">
+    
+    <!--CSS-->
+    <link rel="stylesheet" href="/stylesheets/polymerstyles.css">
+    
+    <!--Polymer-->
+    <script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+    
+    <!--Polymer Catalog Components-->
+    <link rel="import" href="/bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+    <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="/bower_components/iron-flex-layout/iron-flex-layout.html">
+    <link rel="import" href="/bower_components/iron-form/iron-form.html">
+    <link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="/bower_components/paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="/bower_components/paper-card/paper-card.html">
+    <link rel="import" href="/bower_components/paper-input/paper-input.html">
+    <link rel="import" href="/bower_components/paper-button/paper-button.html">
+    
 </head>
 <body>
-<div class="container">
+    
+    <!--Header-->
+    <paper-header-panel main>
 
-<div class="col-sm-6 col-sm-offset-3">
+        <paper-toolbar>
 
-    <h1><span class="fa fa-sign-in"></span> Signup</h1>
+            <div>Random User Movie Quote</div>
 
-    <p>All fields are required.</p>
+        </paper-toolbar>
+        
+    </paper-header-panel>
 
-    <!-- show any messages that come back with authentication -->
-    <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-    <% } %>
+    <!--REAL BODY-->
+    <div>
 
-    <!-- LOGIN FORM -->
-    <form id="signup" action="/signup" method="post">
+        <paper-card class="loginForm" heading="Login">
 
-        <div class="form-group">
-            <label>Name</label>
-            <input id="name" type="text" class="form-control" name="name"> <div id="nameError"></div>
-        </div>
+            <div class="card-content">
 
-        <div class="form-group">
-            <label>Email. You will use this to login.</label>
-            <input type="email" class="form-control" name="email" id="email"> <div id="emailError"></div>
-        </div>
+                <form is="iron-form" id="signup" method="post" action="/signup">
 
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password" id="password"> <div id="passwordError"></div>
-            <label>Verify Password</label>
-            <input type="password" class="form-control" name="passwordAgain" id="passwordAgain">
-        </div>
+                <!-- show any messages that come back with authentication -->
+                <% if (message.length > 0) { %>
 
-        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
-    </form>
+                    <div class="alert alert-danger"><%= message %></div>
 
-    <hr>
+                <% } %>
+                    
+                    <paper-input label="name" name="name"></paper-input>
 
-    <p>Already Signed Up? <a href="/login">Login</a></p>
-    <p>Or go <a href="/">home</a>.</p>
+                    <paper-input allowedpatterns="" label="email" name="email"></paper-input>
 
-</div>
+                    <paper-input label="password" type="password" name="password"></paper-input>
+                    
+                    <paper-input label="password again" type="password" name="passwordAgain"></paper-input>
 
-</div>
+                </form>
+
+            </div>
+
+            <div class="card-actions">
+                
+                <paper-button raised onclick="submitForm()">Sign Up</paper-button>
+                
+                <a href="/">Back to login</a>
+                
+            </div>
+
+        </paper-card>
+
+    </div>
+
 </body>
+
+<script>
+
+function submitForm()
+{
+    
+  document.getElementById('signup').submit();
+
+}
+
+</script>
+
 </html>

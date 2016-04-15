@@ -16,7 +16,7 @@ module.exports = function(app, passport)
         req.user.local.picture = "profile_default.jpg";
         req.user.save();
 
-        res.redirect('/profile');
+        res.redirect('/main');
 
     });
     
