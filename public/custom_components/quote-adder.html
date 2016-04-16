@@ -1,56 +1,182 @@
+<!------Polymer Components------>
+<link rel="import" href="/bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="/bower_components/paper-card/paper-card.html">
+<link rel="import" href="/bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/paper-progress/paper-progress.html">
 
 <dom-module id="quote-adder">
     
     <template>
         
-        <paper-card heading="Add A Quote">
+        <paper-card id="addForm">
 
+            <paper-header-panel class="flex">
+                
+                <paper-toolbar>
+                    
+                    <div>Add A Quote</div>
+                
+                </paper-toolbar>
+  
+            </paper-header-panel>
+            
             <div class="card-content">
-
-                <paper-input id="quote" label="Enter Quote" value="{{quote}}"></paper-input>
+                
+                <paper-input id="quote" label="Enter Quote" value="{{quote}}" on-change="validate" errorMessage="{{quoteError}}"></paper-input>
                     
-                <paper-input id="quoteImage" label="Enter Image" value="{{quoteImage}}"></paper-input>
+                <paper-input id="quoteImage" label="Enter Image" value="{{quoteImage}}" on-change="validate" errorMessage="{{quoteImageError}}"></paper-input>
                     
-                <paper-input id="quoteSource" label="Enter Source" value="{{quoteSource}}"></paper-input>
+                <paper-input id="quoteSource" label="Enter Source" value="{{quoteSource}}" on-change="validate" errorMessage="{{quoteSourceError}}"></paper-input>
 
+                <h2>Rules</h2>
+                
+                <ul>
+                    <li>All fields are required.</li>
+                    <li>Enter the [% name %] tag anywhere you want the name to appear in the quote.</li>
+                    <li>No double quote symbols ("), these are added automatically.</li>
+                    <li>Gif Images of the scene being quoted are preffered.</li>
+                    <li>The submit button will not appear until all information is valid.</li>
+                </ul>
+                
             </div>
 
         </paper-card>
         
-        <paper-card heading="Preview">
+        <paper-card id="preview">
+        
+            <paper-header-panel class="flex">
 
-            <div class="card-content">
+                <paper-toolbar>
 
-                <blockquote>{{quote}}</blockquote>
-                    
-                <img class="previewPicture" src$="{{quoteImage}}" alt="preview"> 
-                    
-                <p>-{{quoteSource}}</p>
+                    <div>Preview</div>
+
+                </paper-toolbar>
+
+            </paper-header-panel>
+            
+            <div class$="card-content {{loadingToggle}}">
+            
+                <paper-progress value="10"></paper-progress>
                 
+            </div>
+            
+            <div class$="card-content {{successToggle}}">
+            
+               <p class="success center">Successfully Added <br> You may add another quote.</p>
+                
+            </div>
+            
+            <div class$="card-content {{failureToggle}}">
+            
+                <p class="error center">Error Submitting</p>
+                
+            </div>
+            
+            
+            <div class$="card-content {{errorToggle}}">
+                
+                <p class="error">{{quoteError}}</p>
+                
+                <p class="error">{{quoteImageError}}</p>
+                
+                <p class="error">{{quoteSourceError}}</p>
+                
+                <p><strong>The preview will appear once the information is valid.</strong></p>
+                
+            </div>
+
+            <div class$="card-content {{previewToggle}}">
+
+                <blockquote><strong>"{{proccessedQuote}}"</strong></blockquote>
+
+                <img class="previewPicture" src$="{{quoteImage}}" alt="preview"> 
+
+                <p>-{{quoteSource}}</p>
+
                 <div class="card-actions">
+
+                    <paper-button raised on-tap="reset">Reset</paper-button>
 
                     <paper-button raised on-tap="submitQuote">Submit Quote</paper-button>
 
                 </div>
 
-                </div>
-
             </div>
 
         </paper-card>
+        
+        <iron-ajax id="submission"
+            url="/add_quote"
+            method="post"
+            body$="{{quoteRequest}}"
+            content-type="application/x-www-form-urlencoded"
+            handle-as="json"
+            on-response="handleResponse"
+            debounce-duration="300">
+        </iron-ajax>
         
     </template>
   
     <style>
 
-.previewPicture
-{
-    
-    max-width: 300px;
-    
-}
+        #addForm, #preview
+        {
+            width: 400px;
+        }
+
+        #addForm li
+        {
+
+            margin-bottom: 5px;
+
+        }
+
+        .center
+        {
+
+            display: block;
+            text-align: center;
+            width: 375px;
+
+        }
+
+        .hide
+        {
+
+            display: none;
+
+        }
+
+        .show
+        {
+
+            display: inline-block;
+
+        }
+
+        .previewPicture
+        {
+
+            max-width: 300px;
+
+        }
+
+        .error
+        {
+
+            color: red;
+
+        }
+
+        .success
+        {
+
+            color: green;
+
+        }
         
     </style>
     
@@ -64,36 +190,206 @@ Polymer(
     properties: 
     {
 
-
+        username: {type: String, value: 'Steve McQueen'}
+        
     },
-    
+      
     ready: function() 
     {
 
+        this.errorToggle = 'show';
         
+        this.previewToggle = 'hide';
+        this.loadingToggle = 'hide';
+        this.successToggle = 'hide';
+        this.failureToggle = 'hide';
         
     },//end ready
     
     validate: function()
     {
         
-        //code to validate input here
+        //no panels should be visible
+        this.proccessedQuote = '';
+        this.previewToggle = 'hide';
+        this.loadingToggle = 'hide';
+        this.successToggle = 'hide';
+        this.failureToggle = 'hide';
         
+        this.valid = true;
+        
+        this.quoteError = '';
+        this.quoteImageError = '';
+        this.quoteSourceError = '';
+        
+        //make sure quote is not blank
+        if(this.quote == '')
+        {
+            
+            this.quoteError += 'Quote Cannot Be Blank.';
+            
+            this.valid = false;
+            
+        }
+        else 
+        {
+
+            if(this.quote.indexOf('"') !== -1)
+            {
+                this.quoteError += 'You have a double quotation symbol in your Quote field.';
+            
+                this.valid = false;
+            
+            }
+            
+            if(this.quote.indexOf('[% name %]') == -1)
+            {
+
+                this.quoteError += ' You have not included a [% name %] tag in your quote.';
+
+                this.valid = false;
+
+            }
+            
+        }
+        
+        if(this.quoteImage == '')
+        {
+
+            this.quoteImageError += 'Image field cannot be blank.';
+            
+            this.valid = false;
+
+        }
+        else if(this.quoteImage.indexOf('"') !== -1)
+        {
+
+            this.quoteImageError = 'You have a double quotation symbol in your Image field.';
+            
+            this.valid = false;
+
+        }	
+
+        if(this.quoteSource == '')
+        {
+            
+            this.quoteSourceError = 'Source field cannot be blank.';
+            
+            this.valid = false;
+            
+        }
+        else if(this.quoteSource.indexOf('"') !== -1)
+        {
+
+            this.quoteSourceError = 'You have a double quotation symbol in your Source field.';
+            
+            this.valid = false;
+
+        }	
+        
+        if(this.valid)
+        {
+            
+            //clear error messages
+            this.quoteError = '';
+            this.quoteImageError = '';
+            this.quoteSourceError = '';
+            
+            //make the preview
+            this.preview();
+            
+            return true;
+            
+        }
+        
+        return false;
     },
     
-    processQuote: function()
+    preview: function()
     {
         
         //code to loop through and replace [% name %] tags with Steve Mcqueen here.
+        var searchString = '[% name %]';
+        
+        var newQuote = this.quote
+
+        //replace the names in the quote
+        while(newQuote.indexOf(searchString) != -1)
+        {
+
+            newQuote = newQuote.replace(searchString, this.username);
+
+        }
+        
+        this.proccessedQuote = newQuote
+        
+        this.errorToggle = 'hide';
+        this.previewToggle = 'show';
+        
+    },
+    
+    reset: function()
+    {
+        
+        //clear inputs
+        this.quote = '';
+        this.quoteImage = '';
+        this.quoteSource ='';
+        
+        //clear errors
+        this.quoteError = '';
+        this.quoteImageError = '';
+        this.quoteSourceError = '';
+        this.errorToggle = 'show';
+        
+        //preview
+        this.proccessedQuote = '';
+        this.previewToggle = 'hide';
+        this.loadingToggle = 'hide';
+        this.successToggle = 'hide';
+        this.failureToggle = 'hide';
         
     },
     
     submitQuote: function()
     {
-        alert('submit quote called')
-        //quote submission process here
-        //clear inputs
-        //ajax send quote
+        
+        if(this.validate())
+        {
+            
+            this.quoteRequest = {quote: this.quote, imgURL: this.quoteImage, source: this.quoteSource};
+            this.$.submission.generateRequest();
+            
+        }
+        
+        this.reset();
+        
+        this.errorToggle = 'hide';
+        
+        this.loadingToggle = 'show';
+        
+    },
+    
+    handleResponse: function(responseData)
+    {
+        
+        console.log(responseData.detail.response);
+        
+        this.reset();
+        this.errorToggle = 'hide';
+        
+       if(responseData.detail.response.success)
+        {
+
+            this.successToggle = 'show';
+            
+        }
+        else
+        {
+
+            this.successToggle = 'show';
+            
+        }
         
     }
 

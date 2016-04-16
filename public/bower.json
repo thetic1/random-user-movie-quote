@@ -38,6 +38,9 @@
     "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
     "paper-item": "PolymerElements/paper-item#^1.2.1",
     "iron-image": "PolymerElements/iron-image#^1.2.3",
-    "paper-material": "PolymerElements/paper-material#^1.0.6"
+    "paper-material": "PolymerElements/paper-material#^1.0.6",
+    "paper-styles": "PolymerElements/paper-styles#^1.1.4",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
+    "paper-progress": "PolymerElements/paper-progress#^1.0.9"
   }
 }

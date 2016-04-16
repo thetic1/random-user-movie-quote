@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,400italic);
+/*@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,400italic);
 
 *
 {
@@ -7,14 +7,7 @@
     
 }
 
-body
-{
-    
-    background-color: #a9a9a9;
-    height: 100%;
-    margin: 0;
-    
-}
+
 
 paper-scroll-header-panel 
 {
@@ -23,12 +16,6 @@ paper-scroll-header-panel
     
 }
 
-paper-card
-{
-
-    margin: 16px;
-
-}
 
 .profileimg
 {
@@ -43,6 +30,17 @@ paper-card
     width: 300px;
     margin: 50px;
     
+}*/
+
+
+
+body
+{
+    
+    background-color: #a9a9a9;
+    height: 100%;
+    margin: 0;
+    
 }
 
 #profilePanel, #addQuotePanel
@@ -50,4 +48,19 @@ paper-card
     
     display: none;
     
+}
+
+.profileimg
+{
+    
+    max-width: 100%;
+    
+}
+
+paper-card
+{
+
+    margin: 16px;
+    vertical-align: top;
+
 }

@@ -2,15 +2,18 @@ module.exports = function(app, isLoggedIn)
 {
 
     // process the add form
-    app.post('/add', function(req, isLoggedIn, res) {
+    app.post('/add_quote', isLoggedIn, function(req, res) {
 
         var quoteSchema = require('../models/quotes');
-
-        var quote = new quoteSchema({quote : req.body.quote, image : req.body.imgURL, movie : req.body.source, hits : 0});
+        
+        console.log('******Incoming Quote******');
+        console.log('QUOTE: ' + req.body.quote + ' IMAGE: ' + req.body.imgURL + ' SOURCE: ' + req.body.source + ' SUBMITTER: ' + req.user.local.name);
+        
+        var quote = new quoteSchema({quote: req.body.quote, image: req.body.imgURL, movie: req.body.source, submitter: req.user.local.name, hits : 0});
 
         quote.save(function (err, quote){
 
-            if (err)
+            if(err)
             { 
                 
                 console.error(err);
