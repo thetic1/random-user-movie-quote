@@ -23,18 +23,17 @@ paper-scroll-header-panel
     
 }
 
-.nav
+paper-card
 {
-    
-    list-style-type: none;
-    font-size: 2em;
-    
+
+    margin: 16px;
+
 }
 
-.nav li
+.profileimg
 {
     
-    margin-top: 5px;
+    max-width: 100%;
     
 }
 
@@ -43,5 +42,12 @@ paper-scroll-header-panel
     
     width: 300px;
     margin: 50px;
+    
+}
+
+#profilePanel, #addQuotePanel
+{
+    
+    display: none;
     
 }

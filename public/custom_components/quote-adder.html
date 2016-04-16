@@ -1,0 +1,104 @@
+<link rel="import" href="/bower_components/paper-card/paper-card.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+
+<dom-module id="quote-adder">
+    
+    <template>
+        
+        <paper-card heading="Add A Quote">
+
+            <div class="card-content">
+
+                <paper-input id="quote" label="Enter Quote" value="{{quote}}"></paper-input>
+                    
+                <paper-input id="quoteImage" label="Enter Image" value="{{quoteImage}}"></paper-input>
+                    
+                <paper-input id="quoteSource" label="Enter Source" value="{{quoteSource}}"></paper-input>
+
+            </div>
+
+        </paper-card>
+        
+        <paper-card heading="Preview">
+
+            <div class="card-content">
+
+                <blockquote>{{quote}}</blockquote>
+                    
+                <img class="previewPicture" src$="{{quoteImage}}" alt="preview"> 
+                    
+                <p>-{{quoteSource}}</p>
+                
+                <div class="card-actions">
+
+                    <paper-button raised on-tap="submitQuote">Submit Quote</paper-button>
+
+                </div>
+
+                </div>
+
+            </div>
+
+        </paper-card>
+        
+    </template>
+  
+    <style>
+
+.previewPicture
+{
+    
+    max-width: 300px;
+    
+}
+        
+    </style>
+    
+    <script>
+        
+Polymer(
+{
+
+    is: 'quote-adder',
+
+    properties: 
+    {
+
+
+    },
+    
+    ready: function() 
+    {
+
+        
+        
+    },//end ready
+    
+    validate: function()
+    {
+        
+        //code to validate input here
+        
+    },
+    
+    processQuote: function()
+    {
+        
+        //code to loop through and replace [% name %] tags with Steve Mcqueen here.
+        
+    },
+    
+    submitQuote: function()
+    {
+        alert('submit quote called')
+        //quote submission process here
+        //clear inputs
+        //ajax send quote
+        
+    }
+
+});
+   
+    </script>
+    
+</dom-module>
