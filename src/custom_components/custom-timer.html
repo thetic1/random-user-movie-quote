@@ -1,0 +1,236 @@
+<link rel="import" href="/bower_components/paper-card/paper-card.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+
+<dom-module id="custom-timer">
+    
+    <template>
+        
+        <paper-card>
+            
+            <paper-header-panel>
+            
+                <paper-toolbar>
+
+                    <iron-icon icon="alarm"></iron-icon><span>Timer</span>
+
+                </paper-toolbar>
+            
+            </paper-header-panel>
+            
+            <div class="card-content">
+
+                <span id="countdown" class$="{{cssClass}}">{{timeLeft}}</span>
+                
+                <paper-button raised on-tap="pauseToggle">{{pauseButtonText}}</paper-button>
+                
+                <paper-button raised  on-tap="resetTimer">Reset</paper-button>
+                
+                <paper-dialog id="timeExceeded">
+                    
+                    <h2 class="critical">Time Exceeded</h2>
+
+                    <paper-button dialog-dismiss>Ok</paper-button>
+
+                </paper-dialog>
+                
+            </div>
+        
+        </paper-card>
+        
+    </template>
+  
+    <style>
+        
+        paper-toolbar span
+        {
+            
+            margin-left: 5px;
+            
+        }
+        
+        #countdown
+        {
+            
+            display: block;
+            width: 100%;
+            font-size: 3em;
+            text-align: center;
+            
+        }
+        
+        .normal
+        {
+            
+            color: green;
+            
+        }
+        
+        .warning
+        {
+            
+            color: darkorange;
+            
+        }
+        
+        .critical
+        {
+            
+            color: red;
+            
+        }
+    
+    </style>
+    
+    <script>
+        
+Polymer(
+{
+
+    is: 'custom-timer',
+
+    properties: 
+    {
+
+        //the amount of time in seconds to countdown from
+        allottedTime: {type: Number, value: 180},
+        
+        cssClass: {type: String, value: 'normal'}
+
+    },
+    
+    //the amount of time left
+    timeLeft: null, //set in the ready function
+    
+    //the handle returned from the async function, used to pause/resume/reset
+    asyncHandle: null, //set in the timer and pauseToggle function
+    
+    //holds timer state, true when timer is running, false when not running 
+    isPaused: true,
+    
+    //sound played when time us up
+    fogHorn: null, //set in the ready function
+    
+    //text contained by the start/pause/resume button
+    pauseButtonText: 'Start',
+    
+    //controls the class applied to the countdown text, can be normal, warning or critical.
+    //Just changes the text color
+    cssClass: 'normal',
+    
+    //ready
+    //Sets some default values for the timer.
+    //no parameters
+    //no returns
+    ready: function() 
+    {
+
+        
+        this.timeLeft = this.allottedTime;
+        
+        this.pauseButtonText = 'Start';
+
+        //the sound that plays when the time is up
+        this.fogHorn = new Audio('/foghorn.wav');
+    
+    },//end ready
+    
+    //timer
+    //Starts a countdown
+    //no parameters
+    //no returns
+    timer: function() 
+    {
+
+        if(this.timeLeft > 0)
+        {
+
+            if(this.timeLeft < this.allottedTime / 3)
+            {
+
+                this.cssClass = "critical";
+
+            }
+            else if (this.timeLeft < this.allottedTime / 2)
+            {
+
+                this.cssClass = "warning";
+
+            }
+            else
+            {
+
+                this.cssClass = "normal";
+                
+            }
+
+            this.timeLeft--;
+
+            this.asyncHandle = this.async(this.timer, 1000);
+
+        }
+        else
+        {
+
+            this.resetTimer();
+            
+            this.fogHorn.play();
+            
+            this.$.timeExceeded.open();
+
+        }
+
+    },//end timer
+
+    //pauseToggle
+    //pauses or plays the timer, toggles the button text to pause or continue
+    //no parameters
+    //no returns
+    pauseToggle: function()
+    {
+
+        if(this.isPaused)
+        {
+
+            this.asyncHandle = this.async(this.timer, 1000);
+
+            this.pauseButtonText = 'Pause';
+
+            this.isPaused = false;
+
+        }
+        else
+        {
+
+            this.cancelAsync(this.asyncHandle);
+
+            this.pauseButtonText = 'Resume';
+
+            this.isPaused = true;
+
+        }
+
+    },//end pauseToggle
+
+    //resetTimer
+    //stops the timer and resets elapsedTime
+    //no parameters
+    //no returns
+    resetTimer: function()
+    {
+
+        this.pauseButtonText = 'Start';
+        
+        this.cancelAsync(this.asyncHandle);
+
+        this.timeLeft = this.allottedTime;
+        
+        this.cssClass = "normal";
+
+    }//end resetTimer
+
+});
+   
+    </script>
+    
+</dom-module>

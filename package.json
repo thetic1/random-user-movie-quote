@@ -6,8 +6,8 @@
     "start": "nodemon ./bin/www && npm run mongo",
     "mongo": "mongod --dbpath ./db",
     "style": "npm run checkroutes && npm run checkapp",
-   "checkapp": "jscs app.js --fix",
-"checkroutes": "jscs routes/* --fix"
+    "checkapp": "jscs app.js --fix",
+    "checkroutes": "jscs routes/* --fix"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -26,7 +26,6 @@
     "nodemon": "^1.9.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "reload": "^0.7.0",
     "request": "^2.70.0",
     "serve-favicon": "~2.3.0",
     "users": "0.0.2"
@@ -51,6 +50,7 @@
   "homepage": "https://github.com/thetic1/random-user-movie-quote#readme",
   "devDependencies": {
     "bower": "^1.7.9",
-    "jscs": "^3.0.3"
+    "jscs": "^3.0.3",
+    "uglify": "^0.1.5"
   }
 }

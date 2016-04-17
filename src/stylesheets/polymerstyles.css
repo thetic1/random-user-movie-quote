@@ -1,0 +1,38 @@
+body
+{
+    
+    background-color: #a9a9a9;
+    height: 100%;
+    margin: 0;
+    
+}
+
+#profilePanel, #addQuotePanel
+{
+    
+    display: none;
+    
+}
+
+.profileimg
+{
+    
+    max-width: 257px;
+    
+}
+
+paper-card
+{
+
+    margin: 16px;
+    vertical-align: top;
+
+}
+
+.loginForm
+{
+    
+    width: 300px;
+    margin: 50px;
+    
+}
