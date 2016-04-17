@@ -9,7 +9,7 @@
     
     <template>
         
-        <paper-card>
+        <paper-card class="userbox">
         
             <paper-header-panel class="flex">
 
@@ -23,9 +23,13 @@
             
             <div class="card-content">
             
-                <img class="usrbox" src$="/images/{{picture}}">
+                <div> 
+                    
+                    <img src$="/images/{{picture}}">
                 
-                <span>{{submissions}}</span>
+                </div>
+                
+                <span class="center"><strong>Submissions:</strong><br />{{submissions}}</span>
 
             </div>
 
@@ -41,12 +45,29 @@
   
     <style>
       
-        .usrbox
+        .userbox
+        {
+            
+            background-color: cadetblue;
+            
+        }
+        
+        .userbox img
         {
     
-            max-width: 50px;
+            max-width: 100px;
+            display: block;
+            margin: 0 auto 5px auto;
     
         }
+        
+        .center
+        {
+            
+            text-align: center;
+            
+        }
+        
         
     </style>
     
@@ -63,7 +84,8 @@ Polymer(
         username: String,
         submissions: String,
         picture: String,
-        queue: String
+        queue: String,
+        index: Number
         
     },
     
@@ -88,7 +110,46 @@ Polymer(
     toggleQueue: function()
     {
     
-    
+        if(this.queue == "inQueue")
+        {
+            
+            var index;
+
+            for(i = 0; i < this.domHost.inQueue.length; i++)
+            {
+
+                if(this.domHost.inQueue[i].name == this.name)
+                {    
+
+                    index = i;
+
+                }
+
+            }            
+            
+            this.domHost.removePerson(this.findMe);
+            
+        }
+        else
+        {
+            
+            var index;
+
+            for(i = 0; i < this.domHost.outOfQueue.length; i++)
+            {
+
+                if(this.domHost.outOfQueue[i].name == this.name)
+                {    
+
+                    index = i;
+
+                }
+
+            }
+            
+            this.domHost.addPerson(index);
+            
+        }
     
     }
     

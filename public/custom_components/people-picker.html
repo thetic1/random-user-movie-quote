@@ -21,110 +21,134 @@
             <paper-card id="controls">
                 
                 <paper-header-panel>
-            
+                    
                     <paper-toolbar>
 
                         <div>Controls</div>
 
                     </paper-toolbar>
             
-            </paper-header-panel>
+                </paper-header-panel>
 
                 <div class="card-actions">
 
-                    <paper-button on-tap="pickSomeone">Pick</paper-button>
+                    <paper-button on-tap="pickSomeone" raised>Pick</paper-button>
 
-                    <paper-button on-tap="reset">Reset</paper-button>
+                    <paper-button on-tap="reset" raised>Reset</paper-button>
 
                 </div>
 
             </paper-card>
-            
-            <custom-timer id="timer"></custom-timer>
         
         </div>
-            
-        <!------In Queue------>
-        <paper-card>
-        
-            <paper-header-panel>
-            
-                <paper-toolbar>
-
-                    <div>In Queue</div>
-
-                </paper-toolbar>
-            
-            </paper-header-panel>
-            
-            <div class="card-content">
-            
-                <template id="inQueueLoop" is="dom-repeat" items="{{inQueue}}">
-
-                    <div>
-                        
-                        <user-box queue="inQueue" username="{{item.name}}" picture="{{item.picture}}" submissions="{{item.submissions}}"></user-box>
-                    
-                    </div>
-                    
-                </template>
-            
-            </div>
-            
-        </paper-card>
-        <!------End in Queue------>
-        
-        
         
         <!------Quote Output------>
-        <paper-card id="quotePanel">
+        <div>
             
-            <div class="card-content">
-                
-                <div id="quoteOutput" class$="{{showQuoteToggle}}">
-            
-                    <blockquote>{{quote}}</blockquote>
-                
-                    <img class="quotePic" src$="{{quotePic}}" alt="random">
-                
-                    <p>- {{source}}</p>
+            <paper-card id="quotePanel">
+
+                <div class="card-content">
+
+                    <div id="quoteOutput" class$="{{showQuoteToggle}}">
+
+                        <blockquote>{{quote}}</blockquote>
+
+                        <img class="quotePic" src$="{{quotePic}}" alt="random">
+
+                        <p>- {{source}}</p>
+
+                    </div>
+
+                    <custom-timer id="timer"></custom-timer>
                     
                 </div>
+
+            </paper-card>
             
-            </div>
-            
-        </paper-card>
+        </div>
         <!------End quote Output------->
         
-        <!------Removed from Queue------>
-        <paper-card>
+        <div>
         
-            <paper-header-panel>
-            
-                <paper-toolbar>
+            <!------In Queue------>
+            <paper-card id="in">
 
-                    <div>Out Of Queue</div>
+                <paper-header-panel>
 
-                </paper-toolbar>
-            
-            </paper-header-panel>
-            
-            <div class="card-content">
-            
-                    <template id="outOfQueueLoop" is="dom-repeat" items="{{outOfQueue}}">
-                        
+                    <paper-toolbar>
+
+                        <div>In Queue</div>
+
+                    </paper-toolbar>
+
+                </paper-header-panel>
+
+                <div class="card-content">
+
+                    <template id="inQueueLoop" is="dom-repeat" items="{{inQueue}}">
+
                         <div>
-                            
-                            <user-box queue="outOfQueue" username="{{item.name}}" picture="{{item.picture}}" submissions="{{item.submissions}}"></user-box>
-                        
+
+                            <user-box queue="inQueue" username="{{item.name}}" picture="{{item.picture}}" submissions="{{item.submissions}}"></user-box>
+
                         </div>
-                            
+
                     </template>
+
+                </div>
+
+            </paper-card>
+            <!------End in Queue------>
+
+            <!------Removed from Queue------>
+            <paper-card id="out">
+
+                <paper-header-panel>
+
+                    <paper-toolbar>
+
+                        <div>Out Of Queue</div>
+
+                    </paper-toolbar>
+
+                </paper-header-panel>
+
+                <div class="card-content">
+
+                    <template id="outOfQueueLoop" is="dom-repeat" items="{{outOfQueue}}">
+
+
+                        <div>
+
+                            <user-box queue="outOfQueue" username="{{item.name}}" picture="{{item.picture}}" submissions="{{item.submissions}}"></user-box>
+
+                        </div>
+
+                    </template>
+
+                </div>
+
+            </paper-card>
+        <!------End removed from Queue------>
+        </div>
+            
+        <paper-dialog id="noOneLeft">
+
+            <h2>No one left in Queue</h2>
+            
+                <paper-dialog-scrollable>
+                    Do you want to reset?
+                </paper-dialog-scrollable>   
+            
+              <div class="buttons">
+                  
+                <paper-button dialog-confirm on-tap="reset">Reset</paper-button>
+                  
+                <paper-button dialog-dismiss>Cancel</paper-button>
             
             </div>
-            
-        </paper-card>
-        <!------End removed from Queue------>
+
+        </paper-dialog>
         
         <iron-ajax id="initialGetter"
             url="/get_quotes"
@@ -146,6 +170,20 @@
   
     <style>
         
+        #in
+        {
+            
+            float: left;
+            
+        }
+        
+        #out
+        {
+            
+            float: right;
+            
+        }
+        
         .hide
         {
             
@@ -163,8 +201,9 @@
         #quotePanel
         {
             
-            width: 370px;
-            
+            width: 97%;
+            min-width: 350px;
+    
         }
         
         .quotePic
@@ -200,11 +239,11 @@
             {
                 
                 this.userList = responseData.detail.response.users
-                this.inQueue = this.userList;
+                this.inQueue = this.userList.slice();
                 this.outOfQueue = [];
                 this.quotes = responseData.detail.response.quotes;
                 
-                this.updateLists();
+                this.updateQueues();
                 
             },
             
@@ -251,36 +290,22 @@
 
             },
             
-            updateLists: function()
+            updateQueues: function()
             {
               
                 this.$.outOfQueueLoop.render();
                 this.$.inQueueLoop.render();
-                
-            },
             
-            updateOutList: function()
-            {
-                
-
-                
-            },
-            
-            updateInList: function()
-            {
-
-;
-                
             },
             
             removePerson: function(index)
             {
                 
                 var user = this.inQueue.splice(index,1)[0];
-
-                this.outOfQueue.push(user);
                 
-                this.updateLists();
+                this.push('outOfQueue',user);
+
+                this.$.inQueueLoop.render();
                 
             },
             
@@ -289,22 +314,22 @@
                 
                 var user = this.outOfQueue.splice(index,1)[0];
 
-                this.inQueue.push(name);          
+                this.push('inQueue', user);
                 
-                this.updateLists();
+                this.$.outOfQueueLoop.render();
                 
             },
             
             reset: function()
             {
                 
-                this.inQueue = this.userList;
+                this.inQueue = this.userList.slice();
                 this.outOfQueue = [];
                 
                 
                 this.$.timer.resetTimer();
                 this.showQuoteToggle = 'hide';
-                this.updateLists();
+                this.updateQueues();
                 this.getMoreQuotes();
                 
             },
@@ -329,7 +354,7 @@
             	if(this.inQueue.length <= 0)
                 {
 
-                    this.Quote = 'Nobody is Left';
+                    this.$.noOneLeft.open();
 
                 }
                 else
@@ -354,9 +379,6 @@
                     this.$.timer.resetTimer();
 
                     this.$.timer.pauseToggle();
-                    
-                    console.log(this.inQueue);
-                    console.log(this.outOfQueue);
 
                 }
             
