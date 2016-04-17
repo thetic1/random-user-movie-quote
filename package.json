@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www && npm run mongo",
-    "mongo": "mongod --dbpath ./db"
+    "mongo": "mongod --dbpath ./db",
+    "style": "npm run checkroutes && npm run checkapp",
+   "checkapp": "jscs app.js --fix",
+"checkroutes": "jscs routes/* --fix"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -48,7 +51,6 @@
   "homepage": "https://github.com/thetic1/random-user-movie-quote#readme",
   "devDependencies": {
     "bower": "^1.7.9",
-    "jscs": "^2.11.0",
-    "jshint": "^2.9.1"
+    "jscs": "^3.0.3"
   }
 }

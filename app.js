@@ -23,7 +23,7 @@ mongoose.connect(configDB.url);
 require('./config/passport')(passport);
 
 //more passport config
-app.use(session({ secret: '4yte823trbv9zmucgrr7k483r3hnxwctqmraa2nv25kphvp5sctq64n85ixs96sx' }));// session secret
+app.use(session({secret: '4yte823trbv9zmucgrr7k483r3hnxwctqmraa2nv25kphvp5sctq64n85ixs96sx'}));// session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -36,7 +36,7 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
