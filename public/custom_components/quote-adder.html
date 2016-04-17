@@ -190,7 +190,8 @@ Polymer(
     properties: 
     {
 
-        username: {type: String, value: 'Steve McQueen'}
+        username: {type: String, value: 'Steve McQueen'},
+        submissions: String,
         
     },
       
@@ -382,12 +383,13 @@ Polymer(
         {
 
             this.successToggle = 'show';
+            this.submissions++;
             
         }
         else
         {
 
-            this.successToggle = 'show';
+            this.failureToggle = 'show';
             
         }
         

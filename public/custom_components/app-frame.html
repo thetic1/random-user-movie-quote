@@ -14,8 +14,9 @@
 <link rel="import" href="/bower_components/paper-material/paper-material.html">
 
 <!------Custom Components------>
-<link rel="import" href="/custom_components/custom-timer.html">
+<link rel="import" href="/custom_components/people-picker.html">
 <link rel="import" href="/custom_components/quote-adder.html">
+<link rel="import" href="/custom_components/profile-editor.html">
 
 <dom-module id="app-frame">
     
@@ -85,25 +86,24 @@
             <!--REAL BODY-->
             <div>
                 
-                
                 <!------Picker Section------>
                 <paper-material elevation="0" id="pickerPanel">
 
-                    <custom-timer></custom-timer>
+                    <people-picker></people-picker>
                 
                 </paper-material>
                 
                 <!------Profile Section------>
                 <paper-material elevation="0" id="profilePanel" on-tap="showProfile">
                 
-                    <h2>Profile Section</h2>
+                    <profile-editor username$="{{username}}" picture$="{{picture}}" email="{{email}}" submissions="{{submissions}}" ></profile-editor>
                     
                 </paper-material>
                 
                 <!------Add Quote Section------>
                 <paper-material elevation="0" id="addQuotePanel">
                 
-                    <quote-adder username={{username}}></quote-adder>
+                    <quote-adder username="{{username}}" submissions="{{submissions}}"></quote-adder>
                     
                 </paper-material>
             
@@ -133,6 +133,10 @@ Polymer(
         username: String,
         
         picture: String,
+        
+        submissions: String,
+        
+        email: String,
 
     },
     

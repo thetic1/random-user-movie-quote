@@ -1,0 +1,369 @@
+<!------Polymer Components------>
+<link rel="import" href="/bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="/bower_components/paper-card/paper-card.html">
+<link rel="import" href="/bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/paper-progress/paper-progress.html">
+
+<!------Custom Components------>
+<link rel="import" href="/custom_components/custom-timer.html">
+<link rel="import" href="/custom_components/user-box.html">
+
+<dom-module id="people-picker">
+    
+    <template>
+
+        <div> 
+        
+            <paper-card id="controls">
+                
+                <paper-header-panel>
+            
+                    <paper-toolbar>
+
+                        <div>Controls</div>
+
+                    </paper-toolbar>
+            
+            </paper-header-panel>
+
+                <div class="card-actions">
+
+                    <paper-button on-tap="pickSomeone">Pick</paper-button>
+
+                    <paper-button on-tap="reset">Reset</paper-button>
+
+                </div>
+
+            </paper-card>
+            
+            <custom-timer id="timer"></custom-timer>
+        
+        </div>
+            
+        <!------In Queue------>
+        <paper-card>
+        
+            <paper-header-panel>
+            
+                <paper-toolbar>
+
+                    <div>In Queue</div>
+
+                </paper-toolbar>
+            
+            </paper-header-panel>
+            
+            <div class="card-content">
+            
+                <template id="inQueueLoop" is="dom-repeat" items="{{inQueue}}">
+
+                    <div>
+                        
+                        <user-box queue="inQueue" username="{{item.name}}" picture="{{item.picture}}" submissions="{{item.submissions}}"></user-box>
+                    
+                    </div>
+                    
+                </template>
+            
+            </div>
+            
+        </paper-card>
+        <!------End in Queue------>
+        
+        
+        
+        <!------Quote Output------>
+        <paper-card id="quotePanel">
+            
+            <div class="card-content">
+                
+                <div id="quoteOutput" class$="{{showQuoteToggle}}">
+            
+                    <blockquote>{{quote}}</blockquote>
+                
+                    <img class="quotePic" src$="{{quotePic}}" alt="random">
+                
+                    <p>- {{source}}</p>
+                    
+                </div>
+            
+            </div>
+            
+        </paper-card>
+        <!------End quote Output------->
+        
+        <!------Removed from Queue------>
+        <paper-card>
+        
+            <paper-header-panel>
+            
+                <paper-toolbar>
+
+                    <div>Out Of Queue</div>
+
+                </paper-toolbar>
+            
+            </paper-header-panel>
+            
+            <div class="card-content">
+            
+                    <template id="outOfQueueLoop" is="dom-repeat" items="{{outOfQueue}}">
+                        
+                        <div>
+                            
+                            <user-box queue="outOfQueue" username="{{item.name}}" picture="{{item.picture}}" submissions="{{item.submissions}}"></user-box>
+                        
+                        </div>
+                            
+                    </template>
+            
+            </div>
+            
+        </paper-card>
+        <!------End removed from Queue------>
+        
+        <iron-ajax id="initialGetter"
+            url="/get_quotes"
+            method="get"
+            handle-as="json"
+            on-response="setup"
+            debounce-duration="300">
+        </iron-ajax>
+        
+        <iron-ajax id="quoteGetter"
+            url="/get_quotes"
+            method="get"
+            handle-as="json"
+            on-response="handleQuotes"
+            debounce-duration="300">
+        </iron-ajax>
+        
+    </template>
+  
+    <style>
+        
+        .hide
+        {
+            
+            display: none;
+            
+        }
+        
+        .show
+        {
+            
+            display: block;
+            
+        }
+        
+        #quotePanel
+        {
+            
+            width: 370px;
+            
+        }
+        
+        .quotePic
+        {
+            
+            max-width: 100%;
+            
+        }
+        
+    </style>
+    
+    <script>
+        
+        Polymer(
+        {
+
+            is: 'people-picker',
+
+            properties: 
+            {
+
+            },
+
+            ready: function() 
+            {
+
+                this.showQuoteToggle = 'hide';
+                this.$.initialGetter.generateRequest();
+                
+            },
+            
+            setup: function(responseData)
+            {
+                
+                this.userList = responseData.detail.response.users
+                this.inQueue = this.userList;
+                this.outOfQueue = [];
+                this.quotes = responseData.detail.response.quotes;
+                
+                this.updateLists();
+                
+            },
+            
+            randomNum: function()
+            {
+                
+                return Math.floor(Math.random() * this.inQueue.length);
+                
+            },
+            
+            phraseMaker: function(person, quote)
+            {
+
+                console.log("Building the phrase");
+
+                var searchString = '[% name %]';
+
+                //replace the names in the quote
+                while(quote.indexOf(searchString) != -1)
+                {
+
+                    quote = quote.replace(searchString, person);
+
+                }
+
+                //the phrase
+                return quote;
+
+            },
+            
+            quotePicker: function()
+            {
+
+                if(this.quotes.length <= 1)
+                {
+
+                    this.getMoreQuotes();
+
+                }
+
+                var quote = this.quotes.splice(this.randomNum(),1)    
+            
+                return quote[0];
+
+            },
+            
+            updateLists: function()
+            {
+              
+                this.$.outOfQueueLoop.render();
+                this.$.inQueueLoop.render();
+                
+            },
+            
+            updateOutList: function()
+            {
+                
+
+                
+            },
+            
+            updateInList: function()
+            {
+
+;
+                
+            },
+            
+            removePerson: function(index)
+            {
+                
+                var user = this.inQueue.splice(index,1)[0];
+
+                this.outOfQueue.push(user);
+                
+                this.updateLists();
+                
+            },
+            
+            addPerson: function(index)
+            {
+                
+                var user = this.outOfQueue.splice(index,1)[0];
+
+                this.inQueue.push(name);          
+                
+                this.updateLists();
+                
+            },
+            
+            reset: function()
+            {
+                
+                this.inQueue = this.userList;
+                this.outOfQueue = [];
+                
+                
+                this.$.timer.resetTimer();
+                this.showQuoteToggle = 'hide';
+                this.updateLists();
+                this.getMoreQuotes();
+                
+            },
+            
+            getMoreQuotes: function()
+            {
+                
+                this.$.quoteGetter.generateRequest();
+                
+            },
+            
+            handleQuotes: function(responseData)
+            {
+
+                this.quotes = responseData.detail.response.quotes;
+
+            },
+            
+            pickSomeone: function()
+            {
+            
+            	if(this.inQueue.length <= 0)
+                {
+
+                    this.Quote = 'Nobody is Left';
+
+                }
+                else
+                {
+                    
+                    this.showQuoteToggle = 'show';
+                    
+                    var random = this.randomNum();
+
+                    var name = this.inQueue[random].name;
+
+                    var quoteObj = this.quotePicker();
+                    
+                    this.removePerson(random);
+
+                    this.quote = this.phraseMaker(name, quoteObj.quote);
+                    
+                    this.quotePic = quoteObj.image;
+                    
+                    this.source = quoteObj.movie;
+
+                    this.$.timer.resetTimer();
+
+                    this.$.timer.pauseToggle();
+                    
+                    console.log(this.inQueue);
+                    console.log(this.outOfQueue);
+
+                }
+            
+            }
+            
+        });
+   
+    </script>
+    
+</dom-module>

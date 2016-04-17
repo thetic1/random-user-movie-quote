@@ -1,0 +1,99 @@
+<!------Polymer Components------>
+<link rel="import" href="/bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="/bower_components/paper-card/paper-card.html">
+<link rel="import" href="/bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="/bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+
+<dom-module id="user-box">
+    
+    <template>
+        
+        <paper-card>
+        
+            <paper-header-panel class="flex">
+
+                <paper-toolbar>
+
+                    <div>{{username}}</div>
+
+                </paper-toolbar>
+
+            </paper-header-panel>
+            
+            <div class="card-content">
+            
+                <img class="usrbox" src$="/images/{{picture}}">
+                
+                <span>{{submissions}}</span>
+
+            </div>
+
+            <div class="card-actions">
+                
+                <paper-button on-tap="toggleQueue">{{action}}</paper-button>
+                
+            </div>
+
+        </paper-card>
+        
+    </template>
+  
+    <style>
+      
+        .usrbox
+        {
+    
+            max-width: 50px;
+    
+        }
+        
+    </style>
+    
+    <script>
+        
+Polymer(
+{
+
+    is: 'user-box',
+
+    properties: 
+    {
+
+        username: String,
+        submissions: String,
+        picture: String,
+        queue: String
+        
+    },
+    
+    ready: function()
+    {
+        
+        if(this.queue == "inQueue")
+        {
+            
+            this.action = "Remove";
+            
+        }
+        else
+        {
+            
+            this.action = "Put Back";
+            
+        }
+        
+    },
+    
+    toggleQueue: function()
+    {
+    
+    
+    
+    }
+    
+});
+   
+    </script>
+    
+</dom-module>

@@ -8,10 +8,18 @@
         
         <paper-card>
             
-            <div class="card-content">
+            <paper-header-panel>
             
-                <iron-icon icon="alarm"></iron-icon><span> Timer </span>
-                
+                <paper-toolbar>
+
+                    <iron-icon icon="alarm"></iron-icon><span>Timer</span>
+
+                </paper-toolbar>
+            
+            </paper-header-panel>
+            
+            <div class="card-content">
+
                 <span id="countdown" class$="{{cssClass}}">{{timeLeft}}</span>
                 
                 <paper-button raised on-tap="pauseToggle">{{pauseButtonText}}</paper-button>
@@ -33,6 +41,13 @@
     </template>
   
     <style>
+        
+        paper-toolbar span
+        {
+            
+            margin-left: 5px;
+            
+        }
         
         #countdown
         {

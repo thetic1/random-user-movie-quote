@@ -1,39 +1,3 @@
-/*@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,400italic);
-
-*
-{
-    
-    font-family: 'Roboto', sans-serif;
-    
-}
-
-
-
-paper-scroll-header-panel 
-{
-
-    height: 56px;
-    
-}
-
-
-.profileimg
-{
-    
-    max-width: 100%;
-    
-}
-
-.loginForm
-{
-    
-    width: 300px;
-    margin: 50px;
-    
-}*/
-
-
-
 body
 {
     
@@ -53,7 +17,7 @@ body
 .profileimg
 {
     
-    max-width: 100%;
+    max-width: 257px;
     
 }
 
@@ -63,4 +27,12 @@ paper-card
     margin: 16px;
     vertical-align: top;
 
+}
+
+.loginForm
+{
+    
+    width: 300px;
+    margin: 50px;
+    
 }

@@ -8,14 +8,6 @@ module.exports = function(app, isLoggedIn)
 
     app.post('/update_profile', [isLoggedIn, upload.single('picture')], function(req, res) 
     {
-    
-        //change the name
-        if(req.body.name != "")
-        {
-
-            req.user.local.name = req.body.name;
-
-        }
 
         if(req.file.originalname != "")
         {   
@@ -26,7 +18,7 @@ module.exports = function(app, isLoggedIn)
 
         req.user.save();
 
-        res.json({success: true});
+        res.json({success: true, picture: req.file.filename});
         
     });
     
