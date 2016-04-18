@@ -32,10 +32,11 @@ If you want to use all of the NPM scripts to help you develop the app these pack
 This is not a fully functional APP yet. See Known issues
 
 1. Clone this repository
-2. Run NPM Install
-3. Run bower install
-4. If you are not running mongo already, start it. (mongod)
-5. Use npm start to run the server
+2. cd into the project directory
+3. Run NPM Install
+4. Run bower install
+5. If you are not running mongo already, start it. (mongod)
+6. Use npm start to run the server
 
 ## Known Issues
 
