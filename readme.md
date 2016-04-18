@@ -17,7 +17,7 @@ These packages must be globally installed to get the complete functionality of t
 If you just running the app and don't need all the dev tools, you only need these packages
 
 * Node.js/NPM
-* MongoDB must be running before you start the app
+* MongoDB
 * Bower
 
 ### Development Server
