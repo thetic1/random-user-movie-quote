@@ -35,7 +35,10 @@ This is not a fully functional APP yet. See Known issues
 2. cd into the project directory
 3. Run npm install
 4. Run bower install
-5. If you are not running mongo already, start it. (mongod)
+5. If you are not running mongo already, start it (mongod).
+    If you want to use the demo database start mongo from your project directory using npm run mongo OR screen -r -m npm run mongo to run it detached
+    With the demo database you can login as thor@thor.com password 1234, it also has several other users
+    The demo database already has several hundred movies quotes
 6. Use npm start to run the server
 
 ## Known Issues
