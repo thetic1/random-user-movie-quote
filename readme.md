@@ -33,7 +33,7 @@ This is not a fully functional APP yet. See Known issues
 
 1. Clone this repository
 2. cd into the project directory
-3. Run npm Install
+3. Run npm install
 4. Run bower install
 5. If you are not running mongo already, start it. (mongod)
 6. Use npm start to run the server
