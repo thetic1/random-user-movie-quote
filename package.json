@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www && npm run mongo",
+    "start": "npm run ugcss && nodemon ./bin/www",
     "mongo": "mongod --dbpath ./db",
     "style": "npm run checkroutes && npm run checkapp",
     "checkapp": "jscs app.js --fix",
-    "checkroutes": "jscs routes/* --fix"
+    "checkroutes": "jscs routes/* --fix",
+    "ugcss": "uglify -c -s ./src/stylesheets/polymerstyles.css -o ./public/stylesheets/polymerstyles.css"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
