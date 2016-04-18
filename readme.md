@@ -27,11 +27,9 @@ If you want to use all of the NPM scripts to help you develop the app these pack
 * jscs
 * uglify
 
-
-
 ## Installation
 
-This is not a working APP yet. Check back later for installation
+This is not a fully functional APP yet. See Known issues
 
 1. Clone this repository
 2. Run NPM Install
@@ -41,7 +39,7 @@ This is not a working APP yet. Check back later for installation
 
 ## Known Issues
 
- ### Functional Issues
+### Functional Issues
  
  User profile picture submission does not work, causes a 500 server error reponse if from is set to iron-form
  Profile will work if iron-from property is removed, but after submitting the form users must click back and refresh the browser
@@ -62,7 +60,7 @@ This is not a working APP yet. Check back later for installation
  
  When alerted that no one is left in queue the paper-dialog element wont go away.
  
- ### Visual Issues
+### Visual Issues
  
  Quote text in the picker is not large enough
  
