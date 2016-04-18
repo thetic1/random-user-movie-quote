@@ -1,8 +1,5 @@
-
 # Created by https://www.gitignore.io/api/node,osx,windows,linux,bower
 
-### Mongo DB ###
-db
 
 
 ### Node ###
