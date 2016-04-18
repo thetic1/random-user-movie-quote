@@ -6,7 +6,7 @@ Team members sign into the app, submit quotes to the database. During a meeting 
 
 ## Version
 
-0.05 Project Initalization, app is not entirely functional yet. See known issues section.
+0.05 Project Initalization, app is functional but with many known bugs. See known issues section.
 
 ## Requirements
 
@@ -33,22 +33,25 @@ This is not a fully functional APP yet. See Known issues
 
 1. Clone this repository
 2. cd into the project directory
-3. Run npm install
-4. Run bower install
-5. If you are not running mongo already, start it (mongod).
+3. Run `npm run installapp`
+4. Use npm start to run the server
 
-    If you want to use the demo database, start mongo from your project directory using:
-    `npm run mongo` __OR__ `screen -r -m npm run mongo` to run it detached
-    With the demo database you can login as __thor@thor.com__ password __1234__, it also has several other users
-    The demo database already has several hundred movies quotes
-    
-6. Use npm start to run the server
+### Demo Database
+
+The app includes its own demo database so you will have quotes and and some default users once installed. For now you must manually remove users from the database
+
+### Default User Login
+ * __email__  thor@thor.com
+ * __password__ 1234
 
 ## Known Issues
 
 ### Functional Issues
  
  User profile picture submission does not work, causes a 500 server error reponse if from is set to iron-form
+ 
+ uploaded profile pictures are not stored in an organized manner, old profile pictures are not deleted
+ 
  Profile will work if iron-from property is removed, but after submitting the form users must click back and refresh the browser
 
  No client side form validation for:
@@ -78,3 +81,8 @@ This is not a fully functional APP yet. See Known issues
  Drawer panel list does not need buttons nested inside the list items
  
  Iron Icons need to be implemented thorughout (right now the only one is on the timer)
+
+## Features For Future Development
+
+ User management
+ Quote management

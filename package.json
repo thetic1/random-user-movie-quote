@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run ugcss && nodemon ./bin/www",
-    "mongo": "mongod --dbpath ./db",
+    "installapp": "npm install && bower install",
+    "start": "npm run mongo && npm run ugcss && nodemon ./bin/www",
+    "mongo": "screen -d -m mongod --dbpath ./db",
     "style": "npm run checkroutes && npm run checkapp",
     "checkapp": "jscs app.js --fix",
     "checkroutes": "jscs routes/* --fix",
