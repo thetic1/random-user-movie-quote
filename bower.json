@@ -41,6 +41,7 @@
     "paper-material": "PolymerElements/paper-material#^1.0.6",
     "paper-styles": "PolymerElements/paper-styles#^1.1.4",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
-    "paper-progress": "PolymerElements/paper-progress#^1.0.9"
+    "paper-progress": "PolymerElements/paper-progress#^1.0.9",
+    "neon-animation": "PolymerElements/neon-animation#^1.2.0"
   }
 }

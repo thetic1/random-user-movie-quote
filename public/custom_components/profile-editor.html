@@ -41,7 +41,7 @@
             
             <div class="card-actions">
                 
-                <form is="iron-form" id="pictureForm" action="/update_profile" method="post" enctype="multipart/form-data">
+                <form id="pictureForm" action="/update_profile" method="post" enctype="multipart/form-data">
                 
                     <paper-input label="Upload New Image" name="picture" type="file"></paper-input>
                     
@@ -104,11 +104,6 @@ Polymer(
     
     submitPicture: function()
     {
-
-        
-        var request = new XMLHttpRequest();
-        
-        //request.open('post', )
         
         document.getElementById('pictureForm').submit();
         

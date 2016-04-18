@@ -118,16 +118,17 @@ Polymer(
             for(i = 0; i < this.domHost.inQueue.length; i++)
             {
 
-                if(this.domHost.inQueue[i].name == this.name)
+                if(this.domHost.inQueue[i].name == this.username)
                 {    
 
                     index = i;
+                    break;
 
                 }
 
             }            
             
-            this.domHost.removePerson(this.findMe);
+            this.domHost.removePerson(index);
             
         }
         else
@@ -137,11 +138,12 @@ Polymer(
 
             for(i = 0; i < this.domHost.outOfQueue.length; i++)
             {
-
-                if(this.domHost.outOfQueue[i].name == this.name)
+                
+                if(this.domHost.outOfQueue[i].name == this.username)
                 {    
 
                     index = i;
+                    break;
 
                 }
 
